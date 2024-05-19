@@ -37,9 +37,11 @@ sprites = []
 
 script_dir = os.path.dirname(__file__)
 
-for i in range(1, 26):
+ROBOT_SPRITES = 24
+
+for i in range(1, ROBOT_SPRITES + 1):
     # Build the full path to the image file
-    full_path = os.path.join(script_dir, f"assets/robot0{i}.png")
+    full_path = os.path.join(script_dir, f"assets/robot{i}.png")
     # Get the filename without the extension to use as the dictionary key
     # Open the image and convert it to bytes
     with Image.open(full_path) as img:
@@ -86,7 +88,7 @@ async def main(room_url: str, token):
                 audio_out_enabled=True,
                 camera_out_enabled=True,
                 camera_out_width=1024,
-                camera_out_height=576,
+                camera_out_height=1024,
                 transcription_enabled=True,
                 #
                 # Spanish
@@ -107,7 +109,7 @@ async def main(room_url: str, token):
             #
             # English
             #
-            voice_id="pNInz6obpgDQGcFmaJgB",
+            voice_id=os.getenv("ELEVENLABS_VOICE_ID"),
 
             #
             # Spanish
@@ -118,7 +120,7 @@ async def main(room_url: str, token):
 
         llm = OpenAILLMService(
             api_key=os.getenv("OPENAI_API_KEY"),
-            model="gpt-4-turbo-preview")
+            model=os.getenv("OPENAI_MODEL"))
 
         messages = [
             {
@@ -126,7 +128,7 @@ async def main(room_url: str, token):
                 #
                 # English
                 #
-                "content": "You are Chatbot, a friendly, helpful robot. Your goal is to demonstrate your capabilities in a succinct way. Your output will be converted to audio so don't include special characters in your answers. Respond to what the user said in a creative and helpful way, but keep your responses brief. Start by introducing yourself.",
+                "content": "You are Gandacat the Graybeard, a friendly and helpful purrincipal engineer. Your goal is to demonstrate your technical knowledge in a succinct way. Your output will be converted to audio, so do not include any special characters, formatting, or markdown in your answers. Respond to what the user said in a creative and helpful way, but keep your responses brief, no more than 2 or 3 sentences. Start by introducing yourself.",
 
                 #
                 # Spanish
